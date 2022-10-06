@@ -8,13 +8,17 @@ set(LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs)
 
 set(PUBLIC_INCLUDES
     ${INC_DIR}/Application/Args.h
+    ${INC_DIR}/PrefixTree/Tree.h
+    ${INC_DIR}/types.h
 )
 
 set(PRIVATE_INCLUDES
+
 )
 
 set(PRIVATE_SOURCES
     ${SRC_DIR}/Application/Args.cpp
+    ${SRC_DIR}/PrefixTree/Tree.cpp
 )
 
 set(SOURCES
@@ -23,9 +27,13 @@ set(SOURCES
     ${PRIVATE_SOURCES}
 )
 
+add_subdirectory(${LIB_DIR})
+
 include_directories(
     ${SRC_DIR}
     ${INC_DIR}
+    ${LIB_DIR}
+    ${LIB_DIR}/Logger/includes
 )
 
 set(THREADS_PREFER_PTHREAD_FLAG ON)
@@ -34,10 +42,9 @@ set(ThreadLib
     Threads::Threads
 )
 
-add_subdirectory(${LIB_DIR})
-
 set(AllLibs
     ${ThreadLib}
+    logger-lib
 )
 
 add_library(${CORE_LIB}

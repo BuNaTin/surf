@@ -1,5 +1,8 @@
 #include <iostream>
 
+#include <PrefixTree/Tree.h>
+#include <types.h>
+
 #include <Arguments.h>
 bool processArgs(Args &args, int argc, char *argv[]) noexcept {
     try {
@@ -21,6 +24,8 @@ bool processArgs(Args &args, int argc, char *argv[]) noexcept {
 }
 
 int main(int argc, char *argv[]) {
+    checkBytes(); // assert on bytes size
+
     Args args;
     if (!processArgs(args, argc, argv)) {
         std::cerr << args.defaultHelp() << std::endl;
@@ -30,6 +35,15 @@ int main(int argc, char *argv[]) {
     if (args.has(ARG_HELP)) {
         std::cout << args.defaultHelp() << std::endl;
         return 0;
+    }
+
+    Surf::Tree data;
+    u64 value = 0;
+    data.insert("Hello", 3);
+    data.insert("Hel", 4);
+
+    if (data.find("Hel", value)) {
+        std::cout << "Find: " << value << '\n';
     }
 
     std::cout << "Work done, shutdown application" << std::endl;
