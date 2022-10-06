@@ -1,5 +1,3 @@
-#include <Application/Application.h>
-
 #include <iostream>
 
 #include <Arguments.h>
@@ -32,27 +30,6 @@ int main(int argc, char *argv[]) {
     if (args.has(ARG_HELP)) {
         std::cout << args.defaultHelp() << std::endl;
         return 0;
-    }
-
-    if (!args.has(ARG_CONFIG_FILE)) {
-        std::cout << "Should have " ARG_CONFIG_FILE " argument"
-                  << std::endl;
-        std::cerr << args.defaultHelp() << std::endl;
-        return 1;
-    }
-
-    auto application = my_project::Application::Builder()
-                               .setConfig(args.get(ARG_CONFIG_FILE))
-                               .setArgs(args)
-                               .build();
-    if (!application) {
-        return 2;
-    }
-
-    if (!application->start()) {
-        std::cerr << "Something goes wrong during app work"
-                  << std::endl;
-        return 3;
     }
 
     std::cout << "Work done, shutdown application" << std::endl;

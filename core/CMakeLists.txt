@@ -1,24 +1,20 @@
 cmake_minimum_required(VERSION 3.16)
 
-set(CORE_LIB my_project-core)
+set(CORE_LIB Surf-core)
 
 set(INC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/includes)
 set(SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs)
 
 set(PUBLIC_INCLUDES
-    ${INC_DIR}/Application/Application.h
     ${INC_DIR}/Application/Args.h
-    ${INC_DIR}/Config/IniConf.h
 )
 
 set(PRIVATE_INCLUDES
 )
 
 set(PRIVATE_SOURCES
-    ${SRC_DIR}/Application/Application.cpp
     ${SRC_DIR}/Application/Args.cpp
-    ${SRC_DIR}/Config/IniConf.cpp
 )
 
 set(SOURCES
