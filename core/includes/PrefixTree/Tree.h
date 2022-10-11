@@ -3,44 +3,45 @@
 #include <surfTypes.h>
 #include <types.h>
 
-#include <algorithm>
 #include <iostream>
 #include <optional>
 #include <string>
-#include <vector>
+#include <array>
 
 namespace Surf { inline namespace PrefixTree {
 
 class Tree {
 public:
-    Tree() { m_head = new Node('\0'); }
+    Tree() { m_head = new Node; }
     ~Tree() { delete m_head; }
 
-    bool insert(const std::string &str, const u64 shift) {
+    bool insert(const key_t &str, const value_t value) {
         Node *cur_node = m_head;
         for (auto symb : str) {
-            if (!cur_node->hasChild()) {
-                cur_node->data = std::vector<Node *>();
+            if (!cur_node->data) {
+                cur_node->data = std::array<Node*, SIZE>();
             }
+
             if (cur_node->child(symb) == nullptr) {
-                cur_node->data->push_back(new Node(symb));
+                (*cur_node->data)[symb] = new Node;
             }
             cur_node = cur_node->child(symb);
         }
         if (cur_node->hasChild()) {
             if (cur_node->child(SPECIAL_CHAR) == nullptr) {
-                cur_node->data->push_back(new Node(SPECIAL_CHAR));
+                (*cur_node->data)[SPECIAL_CHAR] = new Node;
             }
             cur_node = cur_node->child(SPECIAL_CHAR);
         }
-        cur_node->value = shift;
+        cur_node->value = value;
         return true;
     }
 
     bool find(const std::string &str, u64 &value) {
         Node *cur_node = m_head;
         auto it = str.begin(), end = str.end();
-        for (; it != end && cur_node != nullptr && cur_node->hasChild(); ++it) {
+        for (; it != end && cur_node != nullptr; ++it) {
+            std::cout << "GO : " << *it << '\n';
             cur_node = cur_node->child(*it);
         }
         if (cur_node != nullptr &&
@@ -55,33 +56,23 @@ public:
     }
 
 public:
-    enum CHILDREN {
-        SIZE = 256,
-        SPECIAL_CHAR = '$'
-    }; // all in bytes
+    enum TYPE { VALUE, CHILDREN = 1 };
+    enum CHILDREN { SIZE = 256, SPECIAL_CHAR = '$' }; // all in bytes
     struct Node {
         /* NEVER CONTAIN CHILDREN AT '\0' */
-        std::optional<std::vector<Node *>> data;
-        char symb;
+        std::optional<std::array<Node *, SIZE>> data;
         value_t value;
 
-        Node(char s) : symb(s) {}
+        Node() {}
 
         bool hasChild() { return !!data; }
 
-        Node *child(char symb) {
+        Node *child(u8 symb) {
             if (!data) {
                 std::cerr << "Child [" << symb << "] of nullopt data\n";
                 return nullptr;
             }
-            auto it = std::find_if(
-                    data->begin(), data->end(), [symb](Node *node) {
-                        return node->symb == symb;
-                    });
-            if (it == data->end()) {
-                return nullptr;
-            }
-            return *it;
+            return (*data)[symb];
         }
 
         ~Node() {

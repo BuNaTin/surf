@@ -4,6 +4,8 @@
 #include <types.h>
 
 namespace Surf {
-    using ket_t = std::string;
+    static const u64 SIZE = 256;
+
+    using key_t = std::string;
     using value_t = u64;
 }

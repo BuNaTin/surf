@@ -40,7 +40,7 @@ int main(int argc, char *argv[]) {
     Surf::Tree data;
     u64 value = 0;
     data.insert("Hello", 3);
-    data.insert("Hell", 4);
+    data.insert("Hel", 4);
 
     if (data.find("Hel", value)) {
         std::cout << "Find: " << value << '\n';
