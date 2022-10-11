@@ -18,7 +18,7 @@ public:
         }
 
         for (u64 lvl = 0; lvl < buf_tree.size(); ++lvl) {
-            std::cout << "Insert to lvl " << lvl << '\n';
+            // std::cout << "Insert to lvl " << lvl << '\n';
             insertToDense(buf_tree.m_head, lvl);
         }
     }
