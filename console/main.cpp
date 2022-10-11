@@ -23,6 +23,15 @@ bool processArgs(Args &args, int argc, char *argv[]) noexcept {
     return true;
 }
 
+void checkKey(Surf::Fst &fst, const std::string& key) {
+    Surf::value_t* value = fst.exactKeySearch(key);
+    if(value) {
+        std::cout << "Find [" << key << "], value: " << *value << '\n';
+    } else {
+        std::cout << "No   [" << key << "]\n";
+    }
+}
+
 int main(int argc, char *argv[]) {
     checkBytes(); // assert on bytes size
 
@@ -39,21 +48,22 @@ int main(int argc, char *argv[]) {
 
     std::vector<std::pair<std::string, u64>> input{
         {"hello", 1},
-        {"hel", 4},
-        {"q", 33},
-        {"za", 13}
+        {"he", 3},
+        {"andatra", 77},
+        {"a",15}
     };
 
     Surf::Fst fst(input);
 
-
-    Surf::value_t* value = fst.exactKeySearch("hel");
-    if(value) {
-        std::cout << "Find key, value: " << *value << '\n';
-    } else {
-        std::cout << "No key\n";
-    }
-
+    checkKey(fst, "a");
+    checkKey(fst, "an");
+    checkKey(fst, "anda");
+    checkKey(fst, "az");
+    checkKey(fst, "hello");
+    checkKey(fst, "h");
+    checkKey(fst, "he");
+    checkKey(fst, "ell");
+    checkKey(fst, "rrrere");
     std::cout << "Work done, shutdown application" << std::endl;
     return 0;
 }

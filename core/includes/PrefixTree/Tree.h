@@ -18,7 +18,7 @@ public:
     bool insert(const key_t &str, const value_t value) {
         Node *cur_node = m_head;
         for (auto symb : str) {
-            std::cout << "Insert " << symb << '\n';
+            // std::cout << "Insert " << symb << '\n';
             if (!cur_node->data) {
                 cur_node->data = std::array<Node *, SIZE>();
             }
@@ -46,7 +46,7 @@ public:
         Node *cur_node = m_head;
         auto it = str.begin(), end = str.end();
         for (; it != end && cur_node != nullptr; ++it) {
-            std::cout << "GO : " << *it << '\n';
+            // std::cout << "GO : " << *it << '\n';
             cur_node = cur_node->child(*it);
         }
         if (cur_node != nullptr &&
