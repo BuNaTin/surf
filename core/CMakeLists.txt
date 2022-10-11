@@ -27,13 +27,9 @@ set(SOURCES
     ${PRIVATE_SOURCES}
 )
 
-add_subdirectory(${LIB_DIR})
-
 include_directories(
     ${SRC_DIR}
     ${INC_DIR}
-    ${LIB_DIR}
-    ${LIB_DIR}/Logger/includes
 )
 
 set(THREADS_PREFER_PTHREAD_FLAG ON)
@@ -44,7 +40,6 @@ set(ThreadLib
 
 set(AllLibs
     ${ThreadLib}
-    logger-lib
 )
 
 add_library(${CORE_LIB}
