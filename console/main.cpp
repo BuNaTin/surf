@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include <PrefixTree/Tree.h>
+#include <Fst.h>
 #include <types.h>
 
 #include <Arguments.h>
@@ -37,15 +37,21 @@ int main(int argc, char *argv[]) {
         return 0;
     }
 
-    Surf::Tree data;
-    u64 value = 0;
-    data.insert("Hello", 3);
-    data.insert("Hel", 4);
+    std::vector<std::pair<std::string, u64>> input{
+        {"hello", 1},
+        {"hel", 4},
+        {"q", 33},
+        {"za", 13}
+    };
 
-    if (data.find("Hel", value)) {
-        std::cout << "Find: " << value << '\n';
+    Surf::Fst fst(input);
+
+
+    Surf::value_t* value = fst.exactKeySearch("hel");
+    if(value) {
+        std::cout << "Find key, value: " << *value << '\n';
     } else {
-        std::cout << "No value\n";
+        std::cout << "No key\n";
     }
 
     std::cout << "Work done, shutdown application" << std::endl;

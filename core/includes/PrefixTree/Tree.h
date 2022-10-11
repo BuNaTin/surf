@@ -3,10 +3,10 @@
 #include <surfTypes.h>
 #include <types.h>
 
+#include <array>
 #include <iostream>
 #include <optional>
 #include <string>
-#include <array>
 
 namespace Surf { inline namespace PrefixTree {
 
@@ -18,8 +18,9 @@ public:
     bool insert(const key_t &str, const value_t value) {
         Node *cur_node = m_head;
         for (auto symb : str) {
+            std::cout << "Insert " << symb << '\n';
             if (!cur_node->data) {
-                cur_node->data = std::array<Node*, SIZE>();
+                cur_node->data = std::array<Node *, SIZE>();
             }
 
             if (cur_node->child(symb) == nullptr) {
@@ -32,6 +33,10 @@ public:
                 (*cur_node->data)[SPECIAL_CHAR] = new Node;
             }
             cur_node = cur_node->child(SPECIAL_CHAR);
+
+            m_size = std::max(m_size, str.size() + 1);
+        } else {
+            m_size = std::max(m_size, str.size());
         }
         cur_node->value = value;
         return true;
@@ -54,6 +59,8 @@ public:
         }
         return false;
     }
+
+    u64 size() { return m_size; }
 
 public:
     enum TYPE { VALUE, CHILDREN = 1 };
@@ -83,7 +90,7 @@ public:
     };
 
     Node *m_head;
-    u32 cnt = 0;
+    u64 m_size = 0;
 };
 
 }} // namespace Surf::PrefixTree
