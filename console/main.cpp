@@ -63,6 +63,7 @@ int main(int argc, char *argv[]) {
     checkKey(fst, "h");
     checkKey(fst, "he");
     checkKey(fst, "ell");
+    checkKey(fst, "andatra");
     checkKey(fst, "rrrere");
     std::cout << "Work done, shutdown application" << std::endl;
     return 0;

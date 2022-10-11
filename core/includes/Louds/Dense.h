@@ -19,9 +19,16 @@ public:
             return;
         }
         auto data = *node->data;
+        if (data[Tree::SPECIAL_CHAR]) {
+            m_values.push_back(data[Tree::SPECIAL_CHAR]->value);
+            m_is_prefix_key.push_back(true);
+        } else {
+            m_is_prefix_key.push_back(false);
+        }
         for (u64 i = 0; i < SIZE; ++i) {
-            if (data[i]) {
-                // std::cout << (char)i << ':' << m_label.size() << '\n';
+            if (data[i] && i != Tree::SPECIAL_CHAR) {
+                // std::cout << (char)i << ':' << m_label.size() <<
+                // '\n';
 
                 m_label.push_back(true);
                 m_has_child.push_back(data[i]->hasChild());
@@ -35,22 +42,6 @@ public:
                 m_has_child.push_back(false);
             }
         }
-        // for (auto &&child : data) {
-        //     b_label.push_back(child != nullptr);
-        //     if(child == nullptr) {
-        //         b_has_child.push_back(false);
-        //         continue;
-        //     }
-        //     b_has_child.push_back(child->hasChild());
-        //     if (!child->hasChild()) {
-        //         m_values.push_back(child->value);
-        //     }
-        // }
-        if (data[Tree::SPECIAL_CHAR]) {
-            m_is_prefix_key.push_back(true);
-        } else {
-            m_is_prefix_key.push_back(false);
-        }
     }
     value_t *exactKeySearch(std::string::const_iterator it,
                             std::string::const_iterator end,
@@ -60,7 +51,8 @@ public:
         // printer("pre-key", m_is_prefix_key);
 
         u64 new_pos = dense_pos + *it;
-        // std::cout << "Exact [" << new_pos << "] at dense " << dense_pos
+        // std::cout << "Exact [" << new_pos << "] at dense " <<
+        // dense_pos
         //           << " and symb " << (int)*it << '\n';
         if (!m_label[new_pos]) {
             return nullptr;
@@ -74,11 +66,11 @@ public:
             else
                 return nullptr;
         }
+        assert(it == end && "This should be end");
         if (!m_has_child[new_pos]) {
             u64 value_ind = rank<1>(m_label, new_pos) -
-                            rank<1>(m_has_child, new_pos) /* +
-                            rank<1>(m_is_prefix_key, new_pos / 256) */
-                            - 1;
+                            rank<1>(m_has_child, new_pos) +
+                            rank<1>(m_is_prefix_key, new_pos / 256) - 1;
             // std::cout << "Label: " << rank<1>(m_label, new_pos)
             //           << " child: " << rank<1>(m_has_child, new_pos)
             //           << " is_pref "
@@ -87,24 +79,22 @@ public:
 
             return &m_values[value_ind];
         } else {
-            // std::cout << "Label $: " <<
-            // rank<1>(m_label, new_pos)
+            // std::cout << "Label $: " << rank<1>(m_label, new_pos)
             //           << " child: " << rank<1>(m_has_child, new_pos)
             //           << " is_pref "
             //           << rank<1>(m_is_prefix_key, new_pos / 256)
-            //           << '\n';
-            if (m_label[m_label,
-                        SIZE * rank<1>(m_has_child, new_pos) +
-                                Tree::SPECIAL_CHAR]) {
+            //           << " had pref at "
+            //           << rank<1>(m_has_child, new_pos) << '\n';
+            if (m_is_prefix_key[rank<1>(m_has_child, new_pos)]) {
                 // std::cout << "Label: " << rank<1>(m_label, new_pos)
-                //           << " child: " << rank<1>(m_has_child, new_pos)
+                //           << " child: " << rank<1>(m_has_child,
+                //           new_pos)
                 //           << " is_pref "
                 //           << rank<1>(m_is_prefix_key, new_pos / 256)
                 //           << '\n';
                 u64 value_ind = rank<1>(m_label, new_pos) -
-                                rank<1>(m_has_child, new_pos);
-                // std::cout << "Gotcha '$', value ind: " << value_ind
-                //           << "\n";
+                                rank<1>(m_has_child, new_pos) +
+                                rank<1>(m_is_prefix_key, new_pos / 256);
                 return &m_values[value_ind];
             }
         }
