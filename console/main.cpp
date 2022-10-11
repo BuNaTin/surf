@@ -44,6 +44,8 @@ int main(int argc, char *argv[]) {
 
     if (data.find("Hel", value)) {
         std::cout << "Find: " << value << '\n';
+    } else {
+        std::cout << "No value\n";
     }
 
     std::cout << "Work done, shutdown application" << std::endl;
