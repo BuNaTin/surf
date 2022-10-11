@@ -25,6 +25,8 @@ public:
                 m_label.push_back(true);
                 m_has_child.push_back(data[i]->hasChild());
                 if (!data[i]->hasChild()) {
+                    std::cout << "Value [" << m_values.size()
+                              << "]: " << data[i]->value << '\n';
                     m_values.push_back(data[i]->value);
                 }
             } else {
@@ -54,31 +56,40 @@ public:
                             const u64 dense_pos = 0) {
         // printer("labels", m_label);
         // printer("values", m_values, ',');
+        printer("pre-key", m_is_prefix_key);
 
         u64 new_pos = dense_pos + *it;
-        std::cout << "Exact [" << new_pos << "] at dense " << dense_pos
-                  << " and symb " << (int)*it << '\n';
+        // std::cout << "Exact [" << new_pos << "] at dense " <<
+        // dense_pos
+        //           << " and symb " << (int)*it << '\n';
         if (!m_label[new_pos]) {
             return nullptr;
         }
         if (it == end) {
             if (m_has_child[new_pos]) {
-                if (m_label[dense_pos + Tree::SPECIAL_CHAR]) {
+                std::cout << "Not end\n";
+                u64 special_pos = SIZE * rank<1>(m_has_child, new_pos) +
+                                  Tree::SPECIAL_CHAR;
+                if (m_label[special_pos]) {
                     std::cout << "Go to '$'\n";
-                    new_pos = SIZE * rank<1>(m_has_child, dense_pos + Tree::SPECIAL_CHAR);
+                    new_pos =
+                            special_pos; // SIZE * rank<1>(m_has_child,
+                                         // special_pos);
                 } else {
                     return nullptr;
                 }
             }
+
             u64 value_ind = rank<1>(m_label, new_pos) -
-                            rank<1>(m_has_child, new_pos) +
-                            rank<1>(m_is_prefix_key, new_pos / 256) - 1;
+                            rank<1>(m_has_child, new_pos) /* +
+                            rank<1>(m_is_prefix_key, new_pos / 256) */ - 1;
             std::cout << "Value index: " << value_ind << '\n';
             return &m_values[value_ind];
         }
         if (m_has_child[new_pos]) {
-            std::cout << "Go down to " << rank<1>(m_has_child, new_pos)
-                      << "\n";
+            // std::cout << "Go down to " << rank<1>(m_has_child,
+            // new_pos)
+            //           << "\n";
             return exactKeySearch(
                     ++it, end, SIZE * rank<1>(m_has_child, new_pos));
             // go down
