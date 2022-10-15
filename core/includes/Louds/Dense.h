@@ -70,11 +70,11 @@ public:
         if (!m_has_child[new_pos]) {
             u64 value_ind = rank<1>(m_label, new_pos) -
                             rank<1>(m_has_child, new_pos) +
-                            rank<1>(m_is_prefix_key, new_pos / 256) - 1;
+                            rank<1>(m_is_prefix_key, new_pos / SIZE) - 1;
             // std::cout << "Label: " << rank<1>(m_label, new_pos)
             //           << " child: " << rank<1>(m_has_child, new_pos)
             //           << " is_pref "
-            //           << rank<1>(m_is_prefix_key, new_pos / 256)
+            //           << rank<1>(m_is_prefix_key, new_pos / SIZE)
             //           << '\n';
 
             return &m_values[value_ind];
@@ -82,7 +82,7 @@ public:
             // std::cout << "Label $: " << rank<1>(m_label, new_pos)
             //           << " child: " << rank<1>(m_has_child, new_pos)
             //           << " is_pref "
-            //           << rank<1>(m_is_prefix_key, new_pos / 256)
+            //           << rank<1>(m_is_prefix_key, new_pos / SIZE)
             //           << " had pref at "
             //           << rank<1>(m_has_child, new_pos) << '\n';
             if (m_is_prefix_key[rank<1>(m_has_child, new_pos)]) {
@@ -90,11 +90,11 @@ public:
                 //           << " child: " << rank<1>(m_has_child,
                 //           new_pos)
                 //           << " is_pref "
-                //           << rank<1>(m_is_prefix_key, new_pos / 256)
+                //           << rank<1>(m_is_prefix_key, new_pos / SIZE)
                 //           << '\n';
                 u64 value_ind = rank<1>(m_label, new_pos) -
                                 rank<1>(m_has_child, new_pos) +
-                                rank<1>(m_is_prefix_key, new_pos / 256);
+                                rank<1>(m_is_prefix_key, new_pos / SIZE);
                 return &m_values[value_ind];
             }
         }
