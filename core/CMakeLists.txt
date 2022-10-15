@@ -8,17 +8,20 @@ set(LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs)
 
 set(PUBLIC_INCLUDES
     ${INC_DIR}/Application/Args.h
-    ${INC_DIR}/PrefixTree/Tree.h
     ${INC_DIR}/types.h
+    ${INC_DIR}/Fst.h
 )
 
 set(PRIVATE_INCLUDES
-
+    ${SRC_DIR}/PrefixTree/Tree.h
+    ${SRC_DIR}/Louds/Dense.h
 )
 
 set(PRIVATE_SOURCES
     ${SRC_DIR}/Application/Args.cpp
     ${SRC_DIR}/PrefixTree/Tree.cpp
+    ${SRC_DIR}/Louds/Dense.cpp
+    ${SRC_DIR}/Fst.cpp
 )
 
 set(SOURCES
