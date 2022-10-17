@@ -15,12 +15,14 @@ set(PUBLIC_INCLUDES
 set(PRIVATE_INCLUDES
     ${SRC_DIR}/PrefixTree/Tree.h
     ${SRC_DIR}/Louds/Dense.h
+    ${SRC_DIR}/Louds/Sparse.h
 )
 
 set(PRIVATE_SOURCES
     ${SRC_DIR}/Application/Args.cpp
     ${SRC_DIR}/PrefixTree/Tree.cpp
     ${SRC_DIR}/Louds/Dense.cpp
+    ${SRC_DIR}/Louds/Sparse.cpp
     ${SRC_DIR}/Fst.cpp
 )
 

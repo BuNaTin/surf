@@ -49,12 +49,16 @@ void runTest() {
                                   "coco",
                                   "hello",
                                   "andatra",
+                                  "andra",
+                                  "andaaa"
+                                  "andrameda",
                                   "yerfbierb",
                                   "123124234",
                                   "gefrgrg",
                                   "a",
                                   "a",
                                   "a$",
+                                  "ay",
                                   "andatra"};
 
     test(fst, check_keys, input);

@@ -4,7 +4,7 @@
 
 #include <vector>
 
-namespace Surf { 
+namespace Surf {
 
 // predefinition
 inline namespace PrefixTree {
@@ -18,7 +18,9 @@ public:
     void addNode(PrefixTree::Node *node);
     value_t *exactKeySearch(std::string::const_iterator it,
                             std::string::const_iterator end,
-                            const u64 dense_pos = 0);
+                            u64 &dense_pos);
+    
+    u64 getSparseChild();
 
 private:
     std::vector<bool> m_label;
@@ -26,4 +28,6 @@ private:
     std::vector<bool> m_is_prefix_key;
     std::vector<value_t> m_values;
 };
-}} // namespace Surf::Louds
+
+} // namespace Louds
+} // namespace Surf

@@ -22,9 +22,6 @@ void test(Surf::Fst &fst,
 
     std::string passed =
             "Passed " + std::to_string(i) + "/" + std::to_string(size);
-    std::string erase(passed.size(), '\b');
-
-    std::cout << passed;
 
     for (const auto &key : keys) {
         // if not find
@@ -37,29 +34,26 @@ void test(Surf::Fst &fst,
                 std::cerr << "\nAssertion failed at test " << i
                           << "\nFst should not contain key " << key
                           << '\n';
-                return;
             }
         } else {
             value_t *v = fst.exactKeySearch(key);
             if (v == nullptr) {
                 std::cerr << "\nAssertion failed at test " << i
                           << "\nFst should contain key " << key << '\n';
-                return;
+                continue;
             }
             if (*v != it->second) {
                 std::cerr << "\nAssertion failed at test " << i
                           << "\nValue of key " << key
                           << " is wrong (it should be " << it->second
                           << " not " << *v << ")\n";
-                return;
             }
         }
 
         ++i;
         passed = "Passed " + std::to_string(i) + "/" +
                  std::to_string(size);
-        std::string erase(passed.size(), '\b');
-        std::cout << erase << passed;
+        std::cout << passed << std::endl;
     }
     std::cout << std::endl;
 }
